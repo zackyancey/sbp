@@ -13,16 +13,16 @@ function _sbp_generate_path_segment {
   wdir=$(pwd | sed "s|$HOME|~|")
   if [[ ${#wdir} -gt 1 ]]; then
     for folder in $(echo "$wdir" | tr '/' '\n'); do
-      path_length=$(( path_length + ${#folder} + 2 + 2 ))
+      path_length=$(( path_length + ${#folder} + 3 ))
     done
     path_length=$(( path_length - 2 ))
-    path_value=" ${wdir//\// $sep } "
+    path_value=" ${wdir//\//$sep} "
   else
     path_length=2
-    path_value=" $wdir "
+    path_value=" $wdir"
   fi
  _sbp_segment_new_color="$_sbp_path_color_bg" 
  _sbp_segment_new_length="$(( path_length ))" 
- _sbp_segment_new_value="${path_color}${path_value}"
+ _sbp_segment_new_value="${path_color}${path_value} "
  _sbp_segment_new_create
 }
