@@ -2,7 +2,7 @@
 #   Simple Bash Prompt (SBP)    #
 #################################
 
-base_folder="$HOME/src/sbp"
+base_folder="$HOME/src/sbp/src/main/bash"
 # shellcheck source=helpers/imports.bash
 source "$base_folder"/helpers/imports.bash
 
