@@ -3,11 +3,13 @@
 #################################
 
 config_file="${HOME}/.sbp"
+_sbp_enabled=0
 if [[ -f "$config_file" ]]; then
   # shellcheck source=helpers/imports.bash
   source "${sbp_path}"/helpers/imports.bash
   # shellcheck source=settings.default
   source "$config_file"
+  _sbp_enabled=1
 else
   echo "SimpleBashPrompt: ERROR"
   echo "SimpleBashPrompt: No config file found at: ${HOME}/.sbp"
@@ -49,7 +51,7 @@ function set_prompt {
   _sbp_current_exec_result=$?
   _sbp_current_exec_value=$(HISTTIMEFORMAT='' history 1 | awk '{print $2}' | cut -c1-10 )
 
-  if [[ -n "$sbp_path" ]]; then
+  if [[ "$_sbp_enabled" -eq 1 ]]; then
     _sbp_perform_trigger_hooks
     _sbp_generate_segments
     PS1="\n${_sbp_prompt_left_value}${_sbp_prompt_right_value}${_sbp_color_reset}\n$(print_color_escapes "${_sbp_settings_prompt_ready_color}") ${_sbp_char_ready} ${_sbp_color_reset}"

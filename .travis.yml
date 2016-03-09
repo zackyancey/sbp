@@ -1,3 +1,6 @@
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y shellcheck bc
 install: git clone https://github.com/brujoand/bauta.git
 script: script: bash ./bauta/bauta.bash src/tests
 language: bash
