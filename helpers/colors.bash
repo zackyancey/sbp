@@ -1,6 +1,6 @@
 ## Human readable names
 _sbp_color_blue=31
-_sbp_color_red=1
+_sbp_color_red=196
 _sbp_color_white=15
 _sbp_color_grey=244
 _sbp_color_dgrey=238

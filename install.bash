@@ -9,6 +9,7 @@ else
   echo "Found config at $HOME/.sbp"
 fi
 
+# shellcheck disable=SC2154
 if [[ -z "$sbp_path" || "$base_path" != "$sbp_path" ]]; then 
   echo "Please add the following to your .bashrc or equivalent"
   echo "sbp_path=${base_path}"

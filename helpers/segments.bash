@@ -12,14 +12,6 @@ else
   _sbp_char_segrev=''
 fi
 
-function _sbp_toggle_powerline() { # Enable/Disable the use of powerline font in prompt
-  if [[ -f "$_sbp_powerline_disable_file" ]]; then
-    rm "$_sbp_powerline_disable_file"
-  else
-    touch "$_sbp_powerline_disable_file"
-  fi
-}
-
 function _sbp_segment_append_sep() {
   if [[ "$_sbp_prompt_left_length" -gt 0 ]]; then
     local sep_color sep_value

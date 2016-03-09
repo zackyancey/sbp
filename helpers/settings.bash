@@ -2,11 +2,21 @@ function _sbp_print_usage() {
   echo "Usage: sbp <command>"
   echo ""
   echo "Commands:"
-  echo "segments - List all available segments"
-  echo "hooks    - List all available hooks"
-  echo "colors   - List all defined colors"
-  echo "reload   - Reload SBP and user settings"
+  echo "segments  - List all available segments"
+  echo "hooks     - List all available hooks"
+  echo "colors    - List all defined colors"
+  echo "powerline - Toggle the use of powerline fonts"
+  echo "reload    - Reload SBP and user settings"
   return 1
+}
+
+function _sbp_toggle_powerline() {
+  if [[ -f "$_sbp_powerline_disable_file" ]]; then
+    rm "$_sbp_powerline_disable_file"
+  else
+    touch "$_sbp_powerline_disable_file"
+  fi
+  _sbp_reload
 }
 
 function _sbp_list_segments() {
@@ -31,7 +41,7 @@ function _sbp_list_colors() {
   done
 }
 
-function reload_settings() {
+function _sbp_reload() {
   # shellcheck source=/dev/null
   source "$sbp_path"/sbp.bash
 }
@@ -50,6 +60,9 @@ function sbp() {
     reload) # Reload settings and SBP
       _sbp_reload
       ;;
+    powerline) # Toggle use of powerline fonts
+      _sbp_toggle_powerline
+      ;;
     *)
       _sbp_print_usage
       ;;
@@ -59,7 +72,7 @@ function sbp() {
 function _sbp() {
   local cur words
   _get_comp_words_by_ref cur
-  words=('segments' 'hooks' 'colors' 'reload' 'help')
+  words=('segments' 'hooks' 'colors' 'reload' 'help' 'powerline')
   COMPREPLY=( $( compgen -W "${words[*]}" -- "$cur") )
 }
 
