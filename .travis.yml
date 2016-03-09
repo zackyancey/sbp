@@ -1,5 +1,5 @@
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y shellcheck
-script: script: bash shellcheck -x -s bash sbp.bash install.bash
+script: bash shellcheck -x -s bash sbp.bash install.bash
 language: bash
