@@ -1,3 +1,3 @@
 install: git clone https://github.com/brujoand/bauta.git
-script: script: bash ./bauta/src/main/bash/bauta.bash src/test/bash/
+script: script: bash ./bauta/bauta.bash src/tests
 language: bash
