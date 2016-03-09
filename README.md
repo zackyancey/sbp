@@ -5,7 +5,7 @@ Simple Bash Prompt (SBP) is a bash prompt, which strives to be simple. But it is
 This started out as a pure ripoff from powerline-shell, which is great, but written in python.
 SBP is all bash, which makes it fast and fun.
 
-I've tried makeing the code as readable and extendable as possible. 
+I've tried making the code as readable and extendable as possible. 
 If something seems wrong, lacking or bad in some way; feel free to rant, review and create a pull request.
 
 ![Screenshot](https://raw.githubusercontent.com/brujoand/sbp/master/resources/timer.png)
@@ -25,6 +25,7 @@ Or run the install script. Up to you. It's nothing fancy.
 
 ## Usage
 So you're ready to go. Now you do nothing. Just use it. But you could. If you want. Change stuff up a bit.
+Just try stuff out in ~/.sbp and run ```sbp reload```
 If all is well you can use the ```sbp``` command:
 ```
 Usage: sbp <command>
@@ -39,6 +40,7 @@ reload    - Reload SBP and user settings
 
 ## Features
 ### Segments
+Segments are the parts that make up the prompt. So you can add/remove/swap etc.
 - Host; shows the username and maybe host depending on your settings
 - Path; shows the path
 - Git; shows the git branch and status
@@ -47,13 +49,11 @@ reload    - Reload SBP and user settings
 - Timestamp; shows a timestamp
 
 ### Hooks
+Hooks will run once before each prompt is presented. They can also be enabled/disabled at will from the settings file.
 - Alert; will trigger an alert if the previous command took more than some value you specified in the settings
 - Timer; will time the previous command
 
-## Contribute
-I would love to have some more shiny segments.
-
-## FAQ
+## FAQ (singular)
 Can I not use powerline fonts?
   - Yes, just run ```sbp powerline``` to toggle the use of powerline fonts.
 
