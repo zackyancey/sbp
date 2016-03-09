@@ -1,6 +1,5 @@
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y shellcheck bc
-install: git clone https://github.com/brujoand/bauta.git
-script: script: bash ./bauta/bauta.bash src/tests
+  - sudo apt-get install -y shellcheck
+script: script: bash shellcheck -x -s bash sbp.bash install.bash
 language: bash
