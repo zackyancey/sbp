@@ -1,5 +1,7 @@
 before_install:
+  - apt-get -qq update
+  - apt-get install -y cabal-install
   - cabal update
   - cabal install shellcheck
 script: shellcheck -x -s bash sbp.bash install.bash
-language: haskell
+language: bash
