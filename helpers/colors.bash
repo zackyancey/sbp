@@ -15,4 +15,3 @@ function print_color_escapes() { # prints ansi escape codes for fg and bg (optio
 }
 
 _sbp_color_reset='\[\e[00m\]'
-

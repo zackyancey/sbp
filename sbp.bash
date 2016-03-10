@@ -1,7 +1,6 @@
 #################################
 #   Simple Bash Prompt (SBP)    #
 #################################
-
 config_file="${HOME}/.sbp"
 _sbp_enabled=0
 if [[ -f "$config_file" ]]; then
