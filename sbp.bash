@@ -46,7 +46,7 @@ function _sbp_perform_trigger_hooks() {
   done
 }
 
-function set_prompt {
+function _sbp_set_prompt {
   _sbp_current_exec_result=$?
   _sbp_current_exec_value=$(HISTTIMEFORMAT='' history 1 | awk '{print $2}' | cut -c1-10 )
 
@@ -57,4 +57,4 @@ function set_prompt {
   fi
 }
 
-[[ "$PROMPT_COMMAND" == *set_prompt* ]] ||  export PROMPT_COMMAND="set_prompt;$PROMPT_COMMAND"
+[[ "$PROMPT_COMMAND" == *_sbp_set_prompt* ]] ||  export PROMPT_COMMAND="_sbp_set_prompt;$PROMPT_COMMAND"
