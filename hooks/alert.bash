@@ -6,11 +6,11 @@ function _sbp_alert_exec() { # User notification
   title=$1
   message=$2
 
-  if [[ -n "$(type terminal-notifier 2> /dev/null)" ]]; then
+  if type terminal-notifier &> /dev/null; then
     (terminal-notifier -title "$title" -message "$message" &)
   elif [[ "$(uname -s)" == "Darwin" ]]; then
     osascript -e "display notification \"$message\" with title \"$title\""
-  elif [[ -n "$(type notify-send 2> /dev/null)" ]]; then
+  elif type notify-send &> /dev/null; then
     (notify-send "$title" "$message" &)
   fi
 }
