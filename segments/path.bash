@@ -10,9 +10,10 @@ function _sbp_generate_path_segment {
   path_color=$(print_color_escapes "$_sbp_path_color_fg" "$_sbp_path_color_bg")
   sep_color=$(print_color_escapes "$_sbp_path_color_sep" "$_sbp_path_color_bg")
   sep=" ${sep_color}${_sbp_char_path}${path_color} "
-  wdir=$(pwd | sed "s|$HOME|~|")
-  if [[ ${#wdir} -gt 1 ]]; then
-    for folder in $(echo "$wdir" | tr '/' '\n'); do
+  wdir=${PWD/$HOME/\~}
+  IFS=/ read -r -a wdir_array <<<"$wdir"
+  if [[ ${#wdir_array[@]} -gt 1 ]]; then
+    for folder in "${wdir_array[@]}"; do
       path_length=$(( path_length + ${#folder} + 3 ))
     done
     path_length=$(( path_length - 2 ))
