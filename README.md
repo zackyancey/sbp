@@ -1,5 +1,4 @@
 # SBP - Simple Bash Prompt
-[![Build Status](https://travis-ci.org/brujoand/sbp.svg?branch=master)](https://travis-ci.org/brujoand/sbp)
 
 Simple Bash Prompt (SBP) is a bash prompt, which strives to be simple. But it isn't. But it looks kind of nice. I think. 
 This started out as a pure ripoff from powerline-shell, which is great, but written in python.
