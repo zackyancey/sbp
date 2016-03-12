@@ -12,7 +12,7 @@ function _sbp_generate_path_segment {
   sep_color=$(print_color_escapes "$_sbp_path_color_sep" "$_sbp_path_color_bg")
   sep=" ${sep_color}${_sbp_char_path}${path_color} "
   wdir=${PWD/$HOME/\~}
-  if [ $_sbp_path_disable_sep -eq 0 ]; then
+  if [[ $_sbp_path_disable_sep -eq 0 ]]; then
     IFS=/ read -r -a wdir_array <<<"$wdir"
     if [[ ${#wdir_array[@]} -gt 1 ]]; then
       for folder in "${wdir_array[@]}"; do
