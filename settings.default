@@ -25,4 +25,5 @@ _sbp_path_color_sep="$_sbp_color_grey"
 _sbp_timestamp_color_bg="$_sbp_color_dgrey"
 _sbp_timestamp_color_fg="$_sbp_color_lgrey"
 
-_sbp_path_single_seg=0
+# Switches for enabling and disabling functionality.
+_sbp_path_disable_sep=0
