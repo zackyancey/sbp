@@ -1,6 +1,6 @@
 ### Defaults
-_sbp_git_color_bg=${_sbp_git_color_bg-:$_sbp_color_green}
-_sbp_git_color_fg=${_sbp_git_color_fg-:$_sbp_color_dgrey}
+_sbp_git_color_bg=${_sbp_git_color_bg:-$_sbp_color_green}
+_sbp_git_color_fg=${_sbp_git_color_fg:-$_sbp_color_dgrey}
 
 function _sbp_generate_git_segment() {
   [[ -n "$(git rev-parse --git-dir 2> /dev/null)" ]] || return 0

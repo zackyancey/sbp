@@ -1,6 +1,6 @@
 ### Defaults
-_sbp_filler_color_bg=${_sbp_filler_color_bg-:$_sbp_color_empty}
-_sbp_filler_color_fg=${_sbp_filler_color_fg-:$_sbp_color_empty}
+_sbp_filler_color_bg=${_sbp_filler_color_bg:-$_sbp_color_empty}
+_sbp_filler_color_fg=${_sbp_filler_color_fg:-$_sbp_color_empty}
 
 function _sbp_generate_filler_segment {
   local filler_length term_length spaces filler_value filler_color

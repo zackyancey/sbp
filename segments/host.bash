@@ -1,6 +1,6 @@
 ### Defaults
-_sbp_host_color_bg=${_sbp_host_color_bg-:$_sbp_color_dgrey}
-_sbp_host_color_fg=${_sbp_host_color_fg-:$_sbp_color_lgrey}
+_sbp_host_color_bg=${_sbp_host_color_bg:-$_sbp_color_dgrey}
+_sbp_host_color_fg=${_sbp_host_color_fg:-$_sbp_color_lgrey}
 
 if [[ "${USER}" == "root" ]]; then
   _sbp_host_color_fg="0"

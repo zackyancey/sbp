@@ -1,8 +1,8 @@
 ### Defaults
-_sbp_path_color_bg=${_sbp_path_color_bg-:$_sbp_color_blue}
-_sbp_path_color_fg=${_sbp_path_color_fg-:$_sbp_color_white}
-_sbp_path_color_sep=${_sbp_path_color_sep-:$_sbp_color_grey}
-_sbp_path_disable_sep=${_sbp_path_disable_sep-:0}
+_sbp_path_color_bg=${_sbp_path_color_bg:-$_sbp_color_blue}
+_sbp_path_color_fg=${_sbp_path_color_fg:-$_sbp_color_white}
+_sbp_path_color_sep=${_sbp_path_color_sep:-$_sbp_color_grey}
+_sbp_path_disable_sep=${_sbp_path_disable_sep:-0}
 
 function _sbp_generate_path_segment {
   local path_color sep_color sep wdir
