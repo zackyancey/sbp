@@ -16,6 +16,7 @@ else
 fi
 
 function _sbp_generate_segments() {
+  local left_segment_color
   _sbp_prompt_left_length=0
   _sbp_prompt_left_value=
   _sbp_prompt_right_length=0
@@ -27,15 +28,16 @@ function _sbp_generate_segments() {
     "_sbp_generate_${seg}_segment"
   done
 
+  left_segment_color="${_sbp_prompt_current_color}"
+  _sbp_prompt_current_color="${_sbp_filler_color_bg}"
+
   _sbp_segment_sep_orientation=left
-  left_current_color=$_sbp_prompt_current_color
-  _sbp_prompt_current_color=$_sbp_filler_color_bg
 
   for seg in "${_sbp_settings_segments_right[@]}"; do
     "_sbp_generate_${seg}_segment"
   done
 
-  _sbp_prompt_current_color=$left_current_color
+  _sbp_prompt_current_color="${left_segment_color}"
   _sbp_segment_sep_orientation=right
   _sbp_generate_filler_segment
 }
@@ -53,7 +55,7 @@ function _sbp_set_prompt {
   if [[ "$_sbp_enabled" -eq 1 ]]; then
     _sbp_perform_trigger_hooks
     _sbp_generate_segments
-    PS1="\n${_sbp_prompt_left_value}${_sbp_prompt_right_value}${_sbp_color_reset}\n$(print_color_escapes "${_sbp_settings_prompt_ready_color}") ${_sbp_char_ready} ${_sbp_color_reset}"
+    PS1="\n${_sbp_prompt_left_value}${_sbp_prompt_right_value}${_sbp_color_reset}\n$(_sbp_color_print_escaped "${_sbp_settings_prompt_ready_color}") ${_sbp_char_ready} ${_sbp_color_reset}"
   fi
 }
 

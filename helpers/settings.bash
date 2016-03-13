@@ -36,7 +36,7 @@ function _sbp_list_hooks() {
 function _sbp_list_colors() {
   for color_name in $(grep -Eo '_sbp_color_[a-z]+' "${sbp_path}"/helpers/colors.bash); do
     color_number="${!color_name}"
-    color_escapes=$(print_color_escapes "$color_number")
+    color_escapes=$(_sbp_color_print_escaped "$color_number")
     echo -e "${color_escapes}${color_name}${_sbp_color_reset}"
   done
 }
