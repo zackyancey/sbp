@@ -30,3 +30,6 @@ source "$sbp_path"/segments/command.bash
 
 # shellcheck source=segments/timestamp.bash
 source "$sbp_path"/segments/timestamp.bash
+
+# shellcheck source=segments/path_read_only.bash
+source "$sbp_path"/segments/path_read_only.bash
