@@ -13,6 +13,7 @@ source "$sbp_path"/hooks/alert.bash
 # shellcheck source=hooks/timer.bash
 source "$sbp_path"/hooks/timer.bash
 
+
 # shellcheck source=segments/host.bash
 source "$sbp_path"/segments/host.bash
 
@@ -30,3 +31,6 @@ source "$sbp_path"/segments/command.bash
 
 # shellcheck source=segments/timestamp.bash
 source "$sbp_path"/segments/timestamp.bash
+
+# shellcheck source=segments/rc.bash
+source "$sbp_path"/segments/rc.bash
