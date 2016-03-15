@@ -3,7 +3,7 @@ _sbp_path_color_readonly_fg=${_sbp_path_color_readonly_fg:-$_sbp_color_white}
 _sbp_path_color_readonly_bg=${_sbp_path_color_readonly_bg:-$_sbp_color_red}
 
 function _sbp_generate_path_read_only_segment {
-  if [ ! -w $PWD ] ; then
+  if [[ ! -w "$PWD" ]] ; then
     local command_value
 
     command_value=""
