@@ -1,5 +1,6 @@
 ### Defaults
 _sbp_command_color_fg=${_sbp_command_color_fg:-$_sbp_color_dgrey}
+_sbp_command_color_fg_fail=${_sbp_command_color_fg_fail:-$_sbp_color_lgrey}
 _sbp_command_color_bg_fail=${_sbp_command_color_fail:-$_sbp_color_red}
 _sbp_command_color_bg_success=${_sbp_command_color_bg_success:-$_sbp_color_lgrey}
 
@@ -9,6 +10,7 @@ function _sbp_generate_command_segment {
     _sbp_command_color_bg="$_sbp_command_color_bg_success"
   else
     _sbp_command_color_bg="$_sbp_command_color_bg_fail"
+    _sbp_command_color_fg="$_sbp_command_color_fg_fail"
   fi
 
   command_value="last: ${_sbp_timer_m}m ${_sbp_timer_s}s"
