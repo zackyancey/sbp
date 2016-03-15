@@ -2,7 +2,7 @@
 _sbp_rc_bg=${_sbp_rc_bg:-$_sbp_color_red}
 _sbp_rc_fg=${_sbp_rc_fg:-$_sbp_color_white}
 
-function _sbp_generate_rc_segment {
+function _sbp_generate_return_code_segment {
   local command_value
   if [[ "$_sbp_current_exec_result" -ne 0 && "$_sbp_current_exec_result" -ne 130 ]]; then
     command_value="${_sbp_current_exec_result}"

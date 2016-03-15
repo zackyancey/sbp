@@ -33,4 +33,4 @@ source "$sbp_path"/segments/command.bash
 source "$sbp_path"/segments/timestamp.bash
 
 # shellcheck source=segments/rc.bash
-source "$sbp_path"/segments/rc.bash
+source "$sbp_path"/segments/return_code.bash
