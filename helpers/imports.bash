@@ -34,3 +34,6 @@ source "$sbp_path"/segments/timestamp.bash
 
 # shellcheck source=segments/return_code.bash
 source "$sbp_path"/segments/return_code.bash
+
+# shellcheck source=segments/path_read_only.bash
+source "$sbp_path"/segments/path_read_only.bash
