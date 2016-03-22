@@ -1,4 +1,5 @@
 _sbp_alert_threshold="${_sbp_trigger_alert_hook:-1}"
+_sbp_alert_icon="${_sbp_alert_icon:-bash}"
 
 function _sbp_alert_exec() { # User notification
   [[ -z "$2" ]] && echo "I need a title and a message" && return
@@ -11,7 +12,7 @@ function _sbp_alert_exec() { # User notification
   elif [[ "$(uname -s)" == "Darwin" ]]; then
     osascript -e "display notification \"$message\" with title \"$title\""
   elif type notify-send &> /dev/null; then
-    (notify-send "$title" "$message" &)
+    (notify-send --icon="$_sbp_alert_icon" "$title" "$message" &)
   fi
 }
 

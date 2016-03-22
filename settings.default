@@ -36,3 +36,5 @@ _sbp_timestamp_format=%H:%M:%S
 
 # Switches for enabling and disabling functionality.
 _sbp_path_disable_sep=0
+
+_sbp_alert_icon=bash
