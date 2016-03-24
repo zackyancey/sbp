@@ -1,2 +1,10 @@
-script: source sbp.bash
-language: bash
+sudo: required
+dist: trusty
+
+before_install:
+  - echo "deb http://archive.ubuntu.com/ubuntu/ wily universe" | sudo tee -a /etc/apt/sources.list
+  - sudo apt-get update -q
+  - sudo apt-get install shellcheck -y
+
+script:
+  - shellcheck sbp.bash
