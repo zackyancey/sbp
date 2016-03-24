@@ -1,10 +1,9 @@
 sudo: required
 dist: trusty
+language: haskell
 
-before_install:
-  - echo "deb http://archive.ubuntu.com/ubuntu/ wily universe" | sudo tee -a /etc/apt/sources.list
-  - sudo apt-get update -q
-  - sudo apt-get install shellcheck -y
+install:
+  - cabal install --disable-tests shellcheck
 
 script:
-  - shellcheck sbp.bash
+  - shellcheck -x -s /bin/bash sbp.bash 
