@@ -6,4 +6,4 @@ install:
   - cabal install --disable-tests shellcheck
 
 script:
-  - shellcheck -x -s /bin/bash sbp.bash 
+  - shellcheck -x -s bash sbp.bash 
