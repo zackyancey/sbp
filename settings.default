@@ -13,6 +13,7 @@ _sbp_settings_segments_right=('command' 'timestamp')
 _sbp_settings_prompt_ready_color="$_sbp_color_dgrey"
 _sbp_command_color_bg="$_sbp_color_lgrey"
 _sbp_command_color_fg="$_sbp_color_dgrey"
+_sbp_command_color_fg_fail="$_sbp_color_lgrey"
 _sbp_filler_color_bg="$_sbp_color_empty"
 _sbp_filler_color_fg="$_sbp_color_empty"
 _sbp_git_color_bg="$_sbp_color_green"
