@@ -5,7 +5,7 @@ _sbp_settings_hooks=('timer' 'alert')
 # Segments are generated bofere each prompt and can
 # be added, removed and reordered
 # Run 'sbp segments' to list all available segments
-_sbp_settings_segments_left=('host' 'path' 'git')
+_sbp_settings_segments_left=('host' 'path' 'python_virtual_env' 'git')
 _sbp_settings_segments_right=('command' 'timestamp')
 
 # Colors can be changed at will. Run 'sbp colors'
@@ -37,3 +37,7 @@ _sbp_timestamp_format=%H:%M:%S
 
 # Switches for enabling and disabling functionality.
 _sbp_path_disable_sep=0
+_sbp_path_max_length=30
+
+# Git segments settings
+_sbp_git_max_length=20
