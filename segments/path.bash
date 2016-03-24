@@ -18,7 +18,8 @@ function _sbp_generate_path_segment {
     path_color=$(_sbp_color_print_escaped "$_sbp_path_color_fg" "$_sbp_path_color_bg")
     sep_color=$(_sbp_color_print_escaped "$_sbp_path_color_sep" "$_sbp_path_color_bg")
     sep=" ${sep_color}${_sbp_char_path}${path_color} "
-    path_value=" ${wdir//\//$sep}"
+    wdir_stripped=$(echo "${wdir}" | sed -E 's|^/||')
+    path_value=" ${wdir_stripped//\//$sep}"
   else
     path_value=" $wdir"
   fi
