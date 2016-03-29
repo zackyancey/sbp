@@ -17,7 +17,7 @@ function _sbp_generate_git_segment() {
   _sbp_segment_new_color_fg="$_sbp_git_color_fg"
   _sbp_segment_new_color_bg="$_sbp_git_color_bg"
   if [[ "${#git_value}" -gt "$_sbp_git_max_length" ]]; then
-    _sbp_segment_new_value=$(echo "${git_value}" | sed "s/^\(.\{${_sbp_git_max_length}\}\).* \(.*\)/\1.. \2/" )
+    _sbp_segment_new_value=$(echo "${git_value}" | sed "s/^\(.\{${_sbp_git_max_length}\}\).* \(.*\) /\1.. \2/" )
   else
     _sbp_segment_new_value=$git_value
   fi
