@@ -53,7 +53,7 @@ function _sbp_set_prompt {
   if [[ "$_sbp_enabled" -eq 1 ]]; then
     _sbp_perform_trigger_hooks
     _sbp_generate_segments
-    PS1="\n${_sbp_prompt_left_value}${_sbp_prompt_right_value}${_sbp_color_reset}\n$(_sbp_color_print_escaped "${_sbp_settings_prompt_ready_color}") ${_sbp_char_ready} ${_sbp_color_reset}"
+    PS1="\n${_sbp_prompt_left_value}${_sbp_prompt_right_value}${_sbp_color_reset}\n$(_sbp_color_print_escaped "${_sbp_settings_prompt_ready_color}" "${_sbp_settings_prompt_ready_color_bg}")${_sbp_char_ready} ${_sbp_color_reset}"
   fi
 }
 
