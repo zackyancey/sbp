@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-settings_alert_threshold="${settings_alert_hook:-1}"
+settings_alert_threshold="${settings_alert_hook:-60}"
 
 function alert_exec() { # User notification
   [[ -z "$2" ]] && return
