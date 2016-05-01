@@ -1,60 +1,52 @@
 #################################
 #   Simple Bash Prompt (SBP)    #
 #################################
-config_file="${HOME}/.sbp"
-_sbp_enabled=0
-if [[ -f "$config_file" ]]; then
-  # shellcheck source=helpers/imports.bash
-  source "${sbp_path}"/helpers/imports.bash
-  # shellcheck source=settings.default
-  source "$config_file"
-  _sbp_enabled=1
-else
-  echo "SimpleBashPrompt: ERROR"
-  echo "SimpleBashPrompt: No config file found at: ${HOME}/.sbp"
-  echo "SimpleBashPrompt: Please create one or run the install script"
-fi
 
-function _sbp_generate_segments() {
-  local left_segment_color
-  _sbp_prompt_left_value=
-  _sbp_prompt_right_value=
-  _sbp_prompt_current_color=
-  _sbp_segment_sep_orientation=right
+##  sbp.bash
+##    -> Get shell status
+##      -> Call Prompt generater <status>
+##  helpers/prompt.bash
+##    -> Parse config
+##      -> For each config adapt to prompt
+##          <- Return complete prompt
+##      -> Set the prompt
+##      -> Exit
 
-  for seg in "${_sbp_settings_segments_left[@]}"; do
-    "_sbp_generate_${seg}_segment"
-  done
+_sbp_previous_history_id=
+export sbp_path
+#shellcheck source=helpers/settings.bash
+source "${sbp_path}/helpers/settings.bash"
 
-  left_segment_color="${_sbp_prompt_current_color}"
-  _sbp_prompt_current_color="${_sbp_filler_color_bg}"
-
-  _sbp_segment_sep_orientation=left
-
-  for seg in "${_sbp_settings_segments_right[@]}"; do
-    "_sbp_generate_${seg}_segment"
-  done
-
-  _sbp_prompt_current_color="${left_segment_color}"
-  _sbp_segment_sep_orientation=right
-  _sbp_generate_filler_segment
+function _sbp_debugger_start() {
+  timer_start=$(gdate +'%s%3N')
 }
 
-function _sbp_perform_trigger_hooks() {
-  for hook in "${_sbp_settings_hooks[@]}"; do
-    "_sbp_trigger_${hook}_hook"
-  done
+function _sbp_debugger_stop() {
+  timer_stop=$(gdate +'%s%3N')
+  timer_spent=$(( timer_stop - timer_start))
+  >&2 echo "Time spent on generating prompt: $timer_spent"
 }
 
 function _sbp_set_prompt {
-  _sbp_current_exec_result=$?
-  _sbp_current_exec_value=$(HISTTIMEFORMAT='' history 1 | awk '{print $2}' | cut -c1-10 )
+  local command_exit_code=$?
+  [[ "$SBP_DEBUG" -eq 1 ]] && _sbp_debugger_start
+  local last_history command_started command_ended command_time last_history_id
+  command_ended=$(date +'%s')
+  last_history=$(HISTTIMEFORMAT='%s ' history 1)
+  command_started=$(awk '{print $2}' <<< "$last_history")
+  command_time=$(( command_ended - command_started ))
+  last_history_id=$(awk '{print $1}' <<< "$last_history")
+  unset last_history
 
-  if [[ "$_sbp_enabled" -eq 1 ]]; then
-    _sbp_perform_trigger_hooks
-    _sbp_generate_segments
-    PS1="\n${_sbp_prompt_left_value}${_sbp_prompt_right_value}${_sbp_color_reset}\n$(_sbp_color_print_escaped "${_sbp_settings_prompt_ready_color}" "${_sbp_settings_prompt_ready_color_bg}")${_sbp_char_ready} ${_sbp_color_reset}"
+  if [[ -z "$_sbp_previous_history_id" || "$_sbp_previous_history_id" -eq "$last_history_id" ]]; then
+    command_exit_code=-1
+    command_time=-1
   fi
+
+  _sbp_previous_history_id=$last_history_id
+
+  PS1=$("${sbp_path}/helpers/prompt.bash" "$COLUMNS" "$command_exit_code" "$command_time")
+  [[ "$SBP_DEBUG" -eq 1 ]] && _sbp_debugger_stop
 }
 
-[[ "$PROMPT_COMMAND" == *_sbp_set_prompt* ]] ||  export PROMPT_COMMAND="_sbp_set_prompt;$PROMPT_COMMAND"
+[[ "$PROMPT_COMMAND" =~ _sbp_set_prompt ]] || export PROMPT_COMMAND="_sbp_set_prompt;$PROMPT_COMMAND"

@@ -1,12 +1,14 @@
 function _sbp_print_usage() {
-  echo "Usage: sbp <command>"
-  echo ""
-  echo "Commands:"
-  echo "segments  - List all available segments"
-  echo "hooks     - List all available hooks"
-  echo "colors    - List all defined colors"
-  echo "powerline - Toggle the use of powerline fonts"
-  echo "reload    - Reload SBP and user settings"
+  cat << EOF
+  Usage: sbp <command>
+
+  Commands:
+  segments  - List all available segments
+  hooks     - List all available hooks
+  colors    - List all defined colors
+  powerline - Toggle the use of powerline fonts
+  reload    - Reload SBP and user settings
+EOF
   return 1
 }
 
@@ -20,9 +22,18 @@ function _sbp_toggle_powerline() {
 }
 
 function _sbp_list_segments() {
+  # shellcheck source=helpers/config.bash
+  source "${sbp_path}/helpers/config.bash"
+  # shellcheck source=helpers/color.bash
+  source "${sbp_path}/helpers/color.bash"
+
+  local timestamp=$(date +'%s')
+  local exit_code=0
   for segment in "$sbp_path"/segments/*.bash; do
-    script="${segment##*/}"
-    echo "${script/.bash}"
+    segment_name="${segment##*/}"
+    segment_value=$("${sbp_path}/segments/${segment_name}" "$exit_code" "$timestamp")
+    segment_seperator=$("${sbp_path}/helpers/segments.bash" 'seperator' "$(get_current_bg_color "$segment_value")" "-1" "right")
+    echo -e "${segment_name}: ${segment_value}${segment_seperator}${color_reset}" | sed -e 's/\\\[//g' -e 's/\\\]//g'
   done
 }
 
@@ -37,7 +48,7 @@ function _sbp_list_colors() {
   for color_name in $(grep -Eo '_sbp_color_[a-z]+' "${sbp_path}"/helpers/colors.bash); do
     color_number="${!color_name}"
     color_escapes=$(_sbp_color_print_escaped "$color_number")
-    echo -e "${color_escapes}${color_name}${_sbp_color_reset}"
+    echo -e "${color_escapes}${color_name}${color_reset}"
   done
 }
 

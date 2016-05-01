@@ -1,15 +1,11 @@
-### Defaults
-_sbp_return_code_bg=${_sbp_return_code_bg:-$_sbp_color_red}
-_sbp_return_code_fg=${_sbp_return_code_fg:-$_sbp_color_white}
+#! /usr/bin/env bash
 
-function _sbp_generate_return_code_segment {
-  local command_value
-  if [[ "$_sbp_current_exec_result" -ne 0 && "$_sbp_current_exec_result" -ne 130 ]]; then
-    command_value="${_sbp_current_exec_result}"
+return_code=$1
+if (( return_code == -1 )); then
+  return_code=0
+fi
 
-    _sbp_segment_new_color_bg="$_sbp_return_code_bg"
-    _sbp_segment_new_color_fg="$_sbp_return_code_fg"
-    _sbp_segment_new_value=" ${command_value} "
-    _sbp_segment_new_create
-  fi
-}
+if [[ "$return_code" -ne 0 && "$return_code" -ne 130 ]]; then
+  segment_value="${return_code}"
+  "${sbp_path}/helpers/segments.bash" 'segment' "$settings_return_code_fg" "$settings_return_code_bg" " ${segment_value} "
+fi

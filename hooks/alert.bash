@@ -1,8 +1,9 @@
-_sbp_alert_threshold="${_sbp_trigger_alert_hook:-1}"
-_sbp_alert_icon="${_sbp_alert_icon:-bash}"
+#! /usr/bin/env bash
 
-function _sbp_alert_exec() { # User notification
-  [[ -z "$2" ]] && echo "I need a title and a message" && return
+settings_alert_threshold="${settings_alert_hook:-1}"
+
+function alert_exec() { # User notification
+  [[ -z "$2" ]] && return
 
   title=$1
   message=$2
@@ -12,20 +13,27 @@ function _sbp_alert_exec() { # User notification
   elif [[ "$(uname -s)" == "Darwin" ]]; then
     osascript -e "display notification \"$message\" with title \"$title\""
   elif type notify-send &> /dev/null; then
-    (notify-send --icon="$_sbp_alert_icon" "$title" "$message" &)
+    (notify-send "$title" "$message" &)
   fi
 }
 
-function _sbp_trigger_alert_hook {
-  if [[ "$_sbp_alert_threshold" -le "$_sbp_timer_m" ]]; then
-    local title
+function trigger_alert_hook {
+  local exit_code=$1
+  local command_time=$2
 
-    if [[ "$_sbp_current_exec_status" -eq "0" ]]; then
-      title="Command '$_sbp_current_exec_value' Succeded"
+  [[ "$exit_code" -lt 0 ]] && return
+  if [[ "$settings_alert_threshold" -le "$command_time" ]]; then
+    local title message
+
+    if [[ "$exit_code" -eq "0" ]]; then
+      title="Command Succeded"
+      message="Time spent was ${command_time}s"
     else
-      title="Command '$_sbp_current_exec_value' Failed"
+      title="Command Failed"
+      message="Time spent was ${command_time}s"
     fi
 
-    _sbp_alert_exec "$title" "Time spent: ${_sbp_timer_m}m ${_sbp_timer_s}s"
+    alert_exec "$title" "$message"
   fi
 }
+trigger_alert_hook "$1" "$2"

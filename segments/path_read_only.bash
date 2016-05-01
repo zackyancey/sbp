@@ -1,16 +1,6 @@
-### Defaults
-_sbp_path_color_readonly_fg=${_sbp_path_color_readonly_fg:-$_sbp_color_white}
-_sbp_path_color_readonly_bg=${_sbp_path_color_readonly_bg:-$_sbp_color_red}
+#! /usr/bin/env bash
 
-function _sbp_generate_path_read_only_segment {
-  if [[ ! -w "$PWD" ]] ; then
-    local command_value
-
-    command_value=""
-
-    _sbp_segment_new_color_bg="$_sbp_path_color_readonly_bg"
-    _sbp_segment_new_color_fg="$_sbp_path_color_readonly_fg"
-    _sbp_segment_new_value=" ${command_value} "
-    _sbp_segment_new_create
-  fi
-}
+if [[ ! -w "$PWD" ]] ; then
+  segment_value=""
+  "${sbp_path}/helpers/segments.bash" 'segment' "$settings_path_color_readonly_fg" "$settings_path_color_readonly_bg" " ${segment_value}"
+fi

@@ -1,14 +1,4 @@
-### Defaults
-_sbp_timestamp_color_bg=${_sbp_timestamp_color_bg:-$_sbp_color_dgrey}
-_sbp_timestamp_color_fg=${_sbp_timestamp_color_fg:-$_sbp_color_lgrey}
-_sbp_timestamp_format=${_sbp_timestamp_format:-"%H:%M:%S"}
+#! /usr/bin/env bash
 
-function _sbp_generate_timestamp_segment {
-  local timestamp_value
-  timestamp_value=$(date +"$_sbp_timestamp_format")
-
-  _sbp_segment_new_color_fg="$_sbp_timestamp_color_fg"
-  _sbp_segment_new_color_bg="$_sbp_timestamp_color_bg"
-  _sbp_segment_new_value=" ${timestamp_value} "
-  _sbp_segment_new_create
-}
+timestamp_value=$(date +"$settings_timestamp_format")
+"${sbp_path}/helpers/segments.bash" 'segment' "$settings_timestamp_color_fg" "$settings_timestamp_color_bg" " ${timestamp_value} "
