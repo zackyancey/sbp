@@ -1,7 +1,24 @@
-# shellcheck source=helpers/config.bash
-source "${sbp_path}/helpers/config.bash"
 # shellcheck source=helpers/color.bash
 source "${sbp_path}/helpers/color.bash"
+
+function load_config() {
+  config_dir="${HOME}/.config/sbp"
+  config_file="${config_dir}/sbp.conf"
+  default_config_file="${sbp_path}/helpers/defaults.bash"
+
+  # Load the users settings if it exists
+  if [[ -f "$config_file" ]]; then
+    set -a
+    source "$config_file"
+    set +a
+  else
+    set -a
+    source "$default_config_file"
+    set +a
+    mkdir -p "$config_dir"
+    cp "$default_config_file" "$config_file"
+  fi
+}
 
 function calculate_padding() {
   local string=$1
@@ -38,6 +55,7 @@ function generate_segment_seperator() {
 }
 
 function generate_prompt() {
+  load_config
   local columns=$1
   local command_exit_code=$2
   local command_started=$3
@@ -55,7 +73,6 @@ function generate_prompt() {
       >&2 echo "Make sure it exists, and is executable"
     fi
   done
-
 
   local prompt_left="\n"
   local prompt_filler
