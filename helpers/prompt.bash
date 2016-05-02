@@ -33,8 +33,7 @@ function generate_segment_seperator() {
     local from_color to_color
     from_color=$(get_current_bg_color "$current_prompt")
     to_color=$(get_current_bg_color "$value")
-    seperator=$("${sbp_path}/helpers/segments.bash" 'seperator' "$from_color" "$to_color"  "$seperator_direction")
-    printf '%s' "${seperator}"
+    "${sbp_path}/helpers/segments.bash" 'seperator' "$from_color" "$to_color"  "$seperator_direction"
   fi
 }
 

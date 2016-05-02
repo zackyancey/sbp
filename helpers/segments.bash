@@ -1,28 +1,22 @@
 #! /usr/bin/env bash
 
 function generate_escaped_colors() { # prints ansi escape codes for fg and bg (optional)
-  local fg_code fg_escaped bg_code bg_escaped
-  fg_code=$1
-  bg_code=$2
+  local fg_code=$1
+  local bg_code=$2
+  local fg_escaped="${color_reset}"
+  local bg_escaped="${color_reset}"
   [[ "$fg_code" -lt 0 ]] || fg_escaped="\[\e[38;5;${fg_code}m\]"
   [[ "$bg_code" -lt 0 ]] || bg_escaped="\[\e[48;5;${bg_code}m\]"
 
-  if [[ -z "$bg_escaped" ]]; then
-    printf '%s' "${color_reset}${fg_escaped}"
-  elif [[ -z "$fg_escaped" ]]; then
-    printf '%s' "${color_reset}${bg_escaped}"
-  else
-    printf '%s' "${fg_escaped}${bg_escaped}"
-  fi
+  printf '%s' "${fg_escaped}${bg_escaped}"
 }
 
 function segment() {
-  segment_color_fg="$1"
-  segment_color_bg="$2"
-  segment_value="$3"
+  local segment_color_fg="$1"
+  local segment_color_bg="$2"
+  local segment_value="$3"
 
-  segment_color=$(generate_escaped_colors "$segment_color_fg" "$segment_color_bg")
-  printf '%s' "${segment_color}${segment_value}"
+  printf '%s' "$(generate_escaped_colors "$segment_color_fg" "$segment_color_bg")${segment_value}"
 }
 
 function seperator() {
