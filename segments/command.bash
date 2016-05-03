@@ -24,4 +24,4 @@ fi
 
 command_value="last: ${timer_m}m ${timer_s}s"
 
-"${sbp_path}/helpers/segments.bash" 'segment' "$command_color_fg" "$command_color_bg" " ${command_value} "
+segment "$command_color_fg" "$command_color_bg" " ${command_value} "

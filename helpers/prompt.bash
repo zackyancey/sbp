@@ -1,5 +1,7 @@
 # shellcheck source=helpers/color.bash
 source "${sbp_path}/helpers/color.bash"
+# shellcheck source=helpers/segments.bash
+source "${sbp_path}/helpers/segments.bash"
 
 function load_config() {
   config_dir="${HOME}/.config/sbp"
@@ -9,10 +11,12 @@ function load_config() {
   # Load the users settings if it exists
   if [[ -f "$config_file" ]]; then
     set -a
+    # shellcheck source=/dev/null
     source "$config_file"
     set +a
   else
     set -a
+    # shellcheck source=helpers/defaults.bash
     source "$default_config_file"
     set +a
     mkdir -p "$config_dir"
@@ -50,7 +54,7 @@ function generate_segment_seperator() {
     local from_color to_color
     from_color=$(get_current_bg_color "$current_prompt")
     to_color=$(get_current_bg_color "$value")
-    "${sbp_path}/helpers/segments.bash" 'seperator' "$from_color" "$to_color"  "$seperator_direction"
+    seperator "$from_color" "$to_color"  "$seperator_direction"
   fi
 }
 
@@ -112,7 +116,6 @@ function generate_prompt() {
     else
       prompt_line_two="${prompt_line_two}${segment}"
     fi
-
   done
 
   # Generate the filler segment

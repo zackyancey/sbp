@@ -14,4 +14,4 @@ else
   host_color_bg="$settings_host_color_bg"
 fi
 
-"${sbp_path}/helpers/segments.bash" 'segment' "$host_color_fg" "$host_color_bg" " ${host_value} "
+segment "$host_color_fg" "$host_color_bg" " ${host_value} "

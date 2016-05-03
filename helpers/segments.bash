@@ -26,11 +26,16 @@ function seperator() {
 
   [[ -z "$from_color" ]] && return 0 # Can't make seperator without a previous segment
 
-  if [[ "$direction" == "right" ]]; then
-    segment "$from_color" "$to_color" "$settings_char_segment"
-  else
-    segment "$to_color" "$from_color" "$settings_char_segrev"
-  fi
+  case $direction in
+    right)
+      segment "$from_color" "$to_color" "$settings_char_segment"
+    ;;
+    left)
+      segment "$to_color" "$from_color" "$settings_char_segrev"
+      ;;
+  esac
 }
 
-"$1" "$2" "$3" "$4"
+export -f segment
+export -f seperator
+export -f generate_escaped_colors
