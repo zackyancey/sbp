@@ -1,9 +1,13 @@
-# shellcheck source=helpers/color.bash
-source "${sbp_path}/helpers/color.bash"
+function segment() {
+  printf '%s' "${@}"
+}
+
+export -f segment
 
 function test_that_we_get_the_right_time() {
   local result timestamp
   timestamp=$(date +'%H:%M:%S')
+  export settings_timestamp_format="%H:%M:%S"
   result=$("${sbp_path}/segments/timestamp.bash" 0 "$(date +'%s')")
-  assert_equals " $timestamp " "$(strip_escaped_colors "$result")"
+  assert_equals " $timestamp " "$result"
 }

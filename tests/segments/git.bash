@@ -1,17 +1,19 @@
 TMP_FOLDER="/tmp/bauta.$RANDOM"
 
-# shellcheck source=helpers/color.bash
-source "${sbp_path}/helpers/color.bash"
+function segment() {
+  printf '%s' "${@}"
+}
 
 function setup() {
   mkdir -p "$TMP_FOLDER"
-  cd "$TMP_FOLDER"
+  cd "$TMP_FOLDER" || exit 1
   git init
   touch test
   git add test
   git config user.email "you@example.com"
   git config user.name "Your Name"
   git commit -am "Testing"
+  export -f segment
 }
 
 function cleanup() {
@@ -19,18 +21,20 @@ function cleanup() {
 }
 
 function test_that_we_get_master_branch() {
+  export settings_git_max_length=50
   result=$("${sbp_path}/segments/git.bash" 0 0)
-  assert_substring "master" "$result"
+  assert_equals ' master ' "$result"
 }
 
 function test_that_we_see_dirty_dir() {
+  export settings_git_max_length=50
   touch "${TMP_FOLDER}/dirty"
   result=$("${sbp_path}/segments/git.bash" 0 0)
-  assert_substring 'master \?' "$result"
+  assert_equals ' master ? ' "$result"
 }
 
 function test_that_we_abide_by_max_length() {
   export settings_git_max_length=5
   result=$("${sbp_path}/segments/git.bash" 0 0)
-  assert_length "$(strip_escaped_colors "$result")" 7 # add to for the padding
+  assert_length "$result" 7 # add to for the padding
 }

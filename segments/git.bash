@@ -21,5 +21,5 @@ if [[ $(( ${#git_head} + ${#git_state} )) -gt "$settings_git_max_length" ]]; the
   git_head_room=$(( settings_git_max_length - ${#git_state} - 2))
   git_head="${git_head:0:$git_head_room}.."
 fi
-
-segment "$settings_git_color_fg" "$settings_git_color_bg" " ${git_head}${git_state} "
+segment_value=" ${git_head}${git_state} "
+segment "$settings_git_color_fg" "$settings_git_color_bg" "${segment_value//  / }"
