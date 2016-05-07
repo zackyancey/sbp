@@ -45,6 +45,7 @@ function generate_segment_value() {
   fi
 }
 
+
 function generate_segment_seperator() {
   local value=$1
   local seperator_direction=$2
@@ -62,7 +63,7 @@ function generate_prompt() {
   load_config
   local columns=$1
   local command_exit_code=$2
-  local command_started=$3
+  local command_time=$3
 
   # Cheating
   settings_segments_left+=('filler')
@@ -71,7 +72,7 @@ function generate_prompt() {
   for hook in "${settings_hooks[@]}"; do
     local hook_script="${sbp_path}/hooks/${hook}.bash"
     if [[ -x "$hook_script" ]]; then
-      "$hook_script" "$command_exit_code" "$command_started"
+      "$hook_script" "$command_exit_code" "$command_time"
     else
       >&2 echo "Could not execute $hook_script"
       >&2 echo "Make sure it exists, and is executable"
@@ -86,15 +87,22 @@ function generate_prompt() {
   local prompt_right_end=$(( ${#settings_segments_right[@]} + prompt_left_end ))
   local prompt_segments=( ${settings_segments_left[@]} ${settings_segments_right[@]} ${settings_segment_line_two[@]} )
 
-  # Generate segments
+  # Concurrent evaluation of promt segments
+  tempdir=$(mktemp -d) && trap 'rm -rf "$tempdir"' EXIT;
+  for i in "${!prompt_segments[@]}"; do
+    generate_segment_value "${prompt_segments[i]}" "$exit_code" "$command_time" > "$tempdir/$i" & pids[i]=$!
+  done
+  for i in "${!pids[@]}"; do
+    wait "${pids[i]}" && prompt_segments[i]=$(<"$tempdir/$i");
+  done
+
+  # Format the segments
   local previous_segment=
   local seperator_direction='right'
   for i in "${!prompt_segments[@]}"; do
     local seperator=
-    local segment_name=${prompt_segments["$i"]}
-    local segment_value=
+    local segment_value=${prompt_segments["$i"]}
     local segment=
-    segment_value=$(generate_segment_value "$segment_name" "$command_exit_code" "$command_started")
 
     if [[ -n "$segment_value" ]]; then
       seperator=$(generate_segment_seperator "$segment_value" "$seperator_direction" "$previous_segment")
