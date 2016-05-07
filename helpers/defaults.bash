@@ -21,6 +21,9 @@ color_reset='\[\e[00m\]'
 #  settings_char_ready=">"
 #  settings_char_segrev=" "
 
+# General settings
+settings_concurrency_enabled=true
+
 
 # Hooks will run once before every prompt
 # Run 'sbp hooks' to list all available hooks
