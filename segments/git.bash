@@ -22,4 +22,4 @@ if [[ $(( ${#git_head} + ${#git_state} )) -gt "$settings_git_max_length" ]]; the
   git_head="${git_head:0:$git_head_room}.."
 fi
 segment_value=" ${git_head}${git_state} "
-segment "$settings_git_color_fg" "$settings_git_color_bg" "${segment_value//  / }"
+pretty_print_segment "$settings_git_color_fg" "$settings_git_color_bg" "${segment_value//  / }"

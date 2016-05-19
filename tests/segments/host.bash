@@ -1,8 +1,8 @@
-function segment() {
+function pretty_print_segment() {
   printf '%s' "${@}"
 }
 
-export -f segment
+export -f pretty_print_segment
 
 function test_we_get_the_user_right() {
   result=$("${sbp_path}/segments/host.bash" 0 0)

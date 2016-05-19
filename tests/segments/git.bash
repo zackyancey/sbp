@@ -1,8 +1,10 @@
 TMP_FOLDER="/tmp/bauta.$RANDOM"
 
-function segment() {
+function pretty_print_segment() {
   printf '%s' "${@}"
 }
+
+export -f pretty_print_segment
 
 function setup() {
   mkdir -p "$TMP_FOLDER"
@@ -13,7 +15,6 @@ function setup() {
   git config user.email "you@example.com"
   git config user.name "Your Name"
   git commit -am "Testing"
-  export -f segment
 }
 
 function cleanup() {

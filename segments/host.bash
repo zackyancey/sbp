@@ -14,4 +14,4 @@ else
   host_color_bg="$settings_host_color_bg"
 fi
 
-segment "$host_color_fg" "$host_color_bg" " ${host_value} "
+pretty_print_segment "$host_color_fg" "$host_color_bg" " ${host_value} "

@@ -1,28 +1,7 @@
-# shellcheck source=helpers/color.bash
-source "${sbp_path}/helpers/color.bash"
-# shellcheck source=helpers/segments.bash
-source "${sbp_path}/helpers/segments.bash"
-
-function load_config() {
-  config_dir="${HOME}/.config/sbp"
-  config_file="${config_dir}/sbp.conf"
-  default_config_file="${sbp_path}/helpers/defaults.bash"
-
-  # Load the users settings if it exists
-  if [[ -f "$config_file" ]]; then
-    set -a
-    # shellcheck source=/dev/null
-    source "$config_file"
-    set +a
-  else
-    set -a
-    # shellcheck source=helpers/defaults.bash
-    source "$default_config_file"
-    set +a
-    mkdir -p "$config_dir"
-    cp "$default_config_file" "$config_file"
-  fi
-}
+# shellcheck source=helpers/formatting.bash
+source "${sbp_path}/helpers/formatting.bash"
+# shellcheck source=helpers/environment.bash
+source "${sbp_path}/helpers/environment.bash"
 
 function calculate_padding() {
   local string=$1
@@ -31,7 +10,7 @@ function calculate_padding() {
   echo $(( width - ${#uncolored} ))
 }
 
-function generate_segment_value() {
+function execute_segment_script() {
   local segment=$1
   local exit_code=$2
   local time_start=$3
@@ -55,7 +34,7 @@ function generate_segment_seperator() {
     local from_color to_color
     from_color=$(get_current_bg_color "$current_prompt")
     to_color=$(get_current_bg_color "$value")
-    seperator "$from_color" "$to_color"  "$seperator_direction"
+    pretty_print_seperator "$from_color" "$to_color"  "$seperator_direction"
   fi
 }
 
@@ -91,14 +70,14 @@ function generate_prompt() {
     # Concurrent evaluation of promt segments
     tempdir=$(mktemp -d) && trap 'rm -rf "$tempdir"' EXIT;
     for i in "${!prompt_segments[@]}"; do
-      generate_segment_value "${prompt_segments[i]}" "$exit_code" "$command_time" > "$tempdir/$i" & pids[i]=$!
+      execute_segment_script "${prompt_segments[i]}" "$exit_code" "$command_time" > "$tempdir/$i" & pids[i]=$!
     done
     for i in "${!pids[@]}"; do
       wait "${pids[i]}" && prompt_segments[i]=$(<"$tempdir/$i");
     done
   else
     for i in "${!prompt_segments[@]}"; do
-      prompt_segments["$i"]=$(generate_segment_value "${prompt_segments[i]}" "$exit_code" "$command_time")
+      prompt_segments["$i"]=$(execute_segment_script "${prompt_segments[i]}" "$exit_code" "$command_time")
     done
   fi
 
