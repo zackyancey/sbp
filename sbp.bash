@@ -3,8 +3,8 @@
 #################################
 _sbp_previous_history_id=
 export sbp_path
-#shellcheck source=helpers/settings.bash
-source "${sbp_path}/helpers/settings.bash"
+#shellcheck source=helpers/cli.bash
+source "${sbp_path}/helpers/cli.bash"
 
 function _sbp_timer_start() {
   timer_start=$(gdate +'%s%3N')

@@ -24,7 +24,6 @@ color_reset='\[\e[00m\]'
 # General settings
 settings_concurrency_enabled=true
 
-
 # Hooks will run once before every prompt
 # Run 'sbp hooks' to list all available hooks
 settings_hooks=('alert')
@@ -32,7 +31,7 @@ settings_hooks=('alert')
 # Segments are generated bofere each prompt and can
 # be added, removed and reordered
 # Run 'sbp segments' to list all available segments
-settings_segments_left=('host' 'path' 'python_virtual_env' 'git')
+settings_segments_left=('host' 'path' 'python_env' 'git')
 settings_segments_right=('command' 'timestamp')
 settings_segment_line_two=('prompt_ready')
 

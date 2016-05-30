@@ -12,17 +12,19 @@ EOF
 }
 
 function _sbp_list_segments() {
-  # shellcheck source=helpers/config.bash
-  source "${sbp_path}/helpers/config.bash"
-  # shellcheck source=helpers/color.bash
-  source "${sbp_path}/helpers/color.bash"
+  # shellcheck source=helpers/environment.bash
+  source "${sbp_path}/helpers/environment.bash"
+  # shellcheck source=helpers/formatting.bash
+  source "${sbp_path}/helpers/formatting.bash"
+
+  load_config
 
   local command_time=900
   local exit_code=0
   for segment in "$sbp_path"/segments/*.bash; do
     segment_name="${segment##*/}"
     segment_value=$("${sbp_path}/segments/${segment_name}" "$exit_code" "$command_time")
-    segment_seperator=$("${sbp_path}/helpers/segments.bash" 'seperator' "$(get_current_bg_color "$segment_value")" "-1" "right")
+    segment_seperator=$(pretty_print_seperator "$(get_current_bg_color "$segment_value")" "-1" "right")
     echo -e "${segment_name}: ${segment_value}${segment_seperator}${color_reset}" | sed -e 's/\\\[//g' -e 's/\\\]//g'
   done
 }
