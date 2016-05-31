@@ -1,5 +1,8 @@
 sudo: required
 dist: trusty
 language: bash
+cache:
+  directories:
+    - .stack
 before_install: ./bin/bootstrap
 script: ./bin/test

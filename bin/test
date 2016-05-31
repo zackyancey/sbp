@@ -15,4 +15,5 @@ if [[ ! -x "$test_script" ]]; then
 fi
 
 echo "Running tests"
-"${test_script}" "${test_dir}"
+sbp_path=$( cd "$( dirname "${BASH_SOURCE[0]}")/.." && pwd )
+sbp_path="$sbp_path" "${test_script}" "${test_dir}"
