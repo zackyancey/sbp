@@ -2,6 +2,4 @@ sudo: required
 dist: trusty
 language: bash
 before_install: ./bin/bootstrap
-
-script:
-  - true
+script: ./bin/test
