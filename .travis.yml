@@ -3,6 +3,6 @@ dist: trusty
 language: bash
 cache:
   directories:
-    - .stack
+    - .stack/
 before_install: ./bin/bootstrap
 script: ./bin/test
