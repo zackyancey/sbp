@@ -44,9 +44,6 @@ function generate_prompt() {
   local command_exit_code=$2
   local command_time=$3
 
-  # Cheating
-  settings_segments_left+=('filler')
-
   # Execute hooks
   for hook in "${settings_hooks[@]}"; do
     local hook_script="${sbp_path}/hooks/${hook}.bash"
