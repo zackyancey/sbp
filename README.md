@@ -25,7 +25,7 @@ Or run the install script. Up to you. It's nothing fancy.
 
 ## Usage
 So you're ready to go. Now you do nothing. Just use it. But you could. If you want. Change stuff up a bit.
-Just try stuff out in ~/.sbp and run ```sbp reload```
+Just try stuff out in ~/.config/sbp and run ```sbp reload```
 If all is well you can use the ```sbp``` command:
 ```
 Usage: sbp <command>
