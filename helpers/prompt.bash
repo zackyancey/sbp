@@ -61,20 +61,20 @@ function generate_prompt() {
   local prompt_line_two=
   local prompt_left_end=$(( ${#settings_segments_left[@]} - 1 ))
   local prompt_right_end=$(( ${#settings_segments_right[@]} + prompt_left_end ))
-  local prompt_segments=( ${settings_segments_left[@]} ${settings_segments_right[@]} ${settings_segment_line_two[@]} )
+  local prompt_segments=(${settings_segments_left[@]} ${settings_segments_right[@]} ${settings_segment_line_two[@]})
 
   if [[ "$settings_concurrency_enabled" == true ]]; then
     # Concurrent evaluation of promt segments
     tempdir=$(mktemp -d) && trap 'rm -rf "$tempdir"' EXIT;
     for i in "${!prompt_segments[@]}"; do
-      execute_segment_script "${prompt_segments[i]}" "$exit_code" "$command_time" > "$tempdir/$i" & pids[i]=$!
+      execute_segment_script "${prompt_segments[i]}" "$command_exit_code" "$command_time" > "$tempdir/$i" & pids[i]=$!
     done
     for i in "${!pids[@]}"; do
       wait "${pids[i]}" && prompt_segments[i]=$(<"$tempdir/$i");
     done
   else
     for i in "${!prompt_segments[@]}"; do
-      prompt_segments["$i"]=$(execute_segment_script "${prompt_segments[i]}" "$exit_code" "$command_time")
+      prompt_segments["$i"]=$(execute_segment_script "${prompt_segments[i]}" "$command_exit_code" "$command_time")
     done
   fi
 
