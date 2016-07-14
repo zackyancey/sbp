@@ -6,15 +6,25 @@ export sbp_path
 #shellcheck source=helpers/cli.bash
 source "${sbp_path}/helpers/cli.bash"
 
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  date_cmd='date'
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  # Mac OSX
+  date_cmd='gdate'
+else
+  # Unknown.
+  date_cmd='gdate'
+fi
+
 function _sbp_timer_start() {
-  timer_start=$(gdate +'%s%3N')
+  timer_start=$("$date_cmd" +'%s%3N')
 }
 
 function _sbp_timer_tick() {
-  timer_stop=$(gdate +'%s%3N')
+  timer_stop=$("$date_cmd" +'%s%3N')
   timer_spent=$(( timer_stop - timer_start))
   >&2 echo "${timer_spent}ms: $1"
-  timer_start=$(gdate +'%s%3N')
+  timer_start=$("$date_cmd" +'%s%3N')
 }
 
 
