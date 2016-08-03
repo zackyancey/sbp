@@ -6,14 +6,10 @@ export sbp_path
 #shellcheck source=helpers/cli.bash
 source "${sbp_path}/helpers/cli.bash"
 
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
-  date_cmd='date'
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-  # Mac OSX
+if [[ "$OSTYPE" == "darwin"* ]]; then
   date_cmd='gdate'
 else
-  # Unknown.
-  date_cmd='gdate'
+  date_cmd='date'
 fi
 
 function _sbp_timer_start() {
