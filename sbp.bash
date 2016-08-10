@@ -26,13 +26,13 @@ function _sbp_timer_tick() {
 
 function _sbp_set_prompt {
   local command_exit_code=$?
-  [[ -n "$SBP_DEBUG" ]] &&_sbp_timer_start
+  [[ -n "$SBP_DEBUG" ]] && _sbp_timer_start
   local last_history command_started command_ended command_time last_history_id
   command_ended=$(date +'%s')
   last_history=$(HISTTIMEFORMAT='%s ' history 1)
-  command_started=$(cut -d ' ' -f 4 <<< "$last_history")
+  command_started=$(awk '{print $2}' <<< "$last_history")
   command_time=$(( command_ended - command_started ))
-  last_history_id=$(cut -d ' ' -f 2 <<< "$last_history")
+  last_history_id=$(awk '{print $1}' <<< "$last_history")
   unset last_history
 
   if [[ -z "$_sbp_previous_history_id" || "$_sbp_previous_history_id" -eq "$last_history_id" ]]; then
