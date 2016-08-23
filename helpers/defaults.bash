@@ -4,6 +4,7 @@ settings_color_red=196
 settings_color_white=15
 settings_color_grey=244
 settings_color_dgrey=238
+settings_color_dorange=172
 settings_color_lgrey=250
 settings_color_green=148
 settings_color_dgreen=22
@@ -71,3 +72,7 @@ settings_return_code_fg=$settings_color_white
 settings_timestamp_color_bg=$settings_color_dgrey
 settings_timestamp_color_fg=$settings_color_lgrey
 settings_timestamp_format="%H:%M:%S"
+
+settings_aws_color_bg=$settings_color_dgrey
+settings_aws_color_fg=$settings_color_dorange
+
