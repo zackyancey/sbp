@@ -5,7 +5,8 @@ bashrc_path="$HOME"/.bashrc
 
 if [[ ! -f "$HOME"/.sbp ]]; then
   echo "SBP: Adding default config to $HOME/.sbp"
-  cp "$base_path"/settings.default "$HOME/.sbp"
+  mkdir -p "$HOME/.config/sbp"
+  cp "$base_path"/helpers/defaults.bash "$HOME/.config/sbp/sbp.conf"
 else
   echo "SBP: Found config at $HOME/.sbp"
 fi
