@@ -4,7 +4,7 @@ base_path=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 bashrc_path="$HOME"/.bashrc
 
 if [[ ! -f "$HOME"/.sbp ]]; then
-  echo "SBP: Adding default config to $HOME/.sbp"
+  echo "SBP: Adding default config to $HOME/.config/sbp/sbp.conf"
   mkdir -p "$HOME/.config/sbp"
   cp "$base_path"/helpers/defaults.bash "$HOME/.config/sbp/sbp.conf"
 else
