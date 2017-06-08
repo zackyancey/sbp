@@ -12,7 +12,7 @@ if [[ -f "$git_prompt_helper" ]]; then
     git_state=" $(cut -d' ' -f2- <<< "$git_ps1")"
   fi
 else
-  git_head=$(sed -e 's,.*/\(.*\),\1,' <(git symbolic-ref HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null))
+  git_head=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
   [[ -z "$git_head" ]] && exit 0
   git_state=" $(git status --porcelain | sed -Ee 's/^(.M|M.|.R|R.) .*/\*/' -e 's/^(.A|A.) .*/\+/' -e 's/^(.D|D.) .*/\-/' | grep -oE '^(\*|\+|\?|\-)' | sort -u | tr -d '\n')"
 fi
