@@ -1,11 +1,8 @@
 #! /usr/bin/env bash
 
 [[ -n "$(git rev-parse --git-dir 2> /dev/null)" ]] || exit 0
-git_bin=$(type -p git)
-git_prompt_helper="$(dirname "$git_bin")$(dirname "$(readlink "$git_bin")")/../etc/bash_completion.d/git-prompt.sh";
 
-if [[ -f "$git_prompt_helper" ]]; then
-  source "$git_prompt_helper"
+if type __git_ps1 &>/dev/null; then
   git_ps1="$(__git_ps1 '%s')"
   git_head=$(cut -d' ' -f1 <<< "$git_ps1")
   if [[ ! "$git_head" == "$git_ps1" ]]; then
