@@ -2,16 +2,17 @@
 
 [[ -n "$(git rev-parse --git-dir 2> /dev/null)" ]] || exit 0
 
-if type __git_ps1 &>/dev/null; then
-  git_ps1="$(__git_ps1 '%s')"
-  git_head=$(cut -d' ' -f1 <<< "$git_ps1")
-  if [[ ! "$git_head" == "$git_ps1" ]]; then
-    git_state=" $(cut -d' ' -f2- <<< "$git_ps1")"
-  fi
-else
-  git_head=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
-  [[ -z "$git_head" ]] && exit 0
-  git_state=" $(git status --porcelain | sed -Ee 's/^(.M|M.|.R|R.) .*/\*/' -e 's/^(.A|A.) .*/\+/' -e 's/^(.D|D.) .*/\-/' | grep -oE '^(\*|\+|\?|\-)' | sort -u | tr -d '\n')"
+git_head=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
+[[ -z "$git_head" ]] && exit 0
+git_state=" $(git status --porcelain | sed -Ee 's/^(.M|M.|.R|R.) .*/\*/' -e 's/^(.A|A.) .*/\+/' -e 's/^(.D|D.) .*/\-/' | grep -oE '^(\*|\+|\?|\-)' | sort -u | tr -d '\n')"
+git_left_right=$(git rev-list --count --left-right '@{upstream}'...HEAD)
+git_left=$(sed -n -E 's/^([0-9]+).*[0-9]/\1/p' <<< "$git_left_right")
+git_right=$(sed -n -E 's/^[0-9]+.*([0-9])/\1/p' <<< "$git_left_right")
+if [[ "$git_left" -gt 0 ]]; then
+  git_state="${git_state} <${git_left}"
+fi
+if [[ "$git_right" -gt 0 ]]; then
+  git_state="${git_state} >${git_right}"
 fi
 
 if [[ $(( ${#git_head} + ${#git_state} )) -gt "$settings_git_max_length" ]]; then
