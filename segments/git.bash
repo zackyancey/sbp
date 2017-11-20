@@ -5,7 +5,7 @@
 git_head=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
 [[ -z "$git_head" ]] && exit 0
 git_state=" $(git status --porcelain | sed -Ee 's/^(.M|M.|.R|R.) .*/\*/' -e 's/^(.A|A.) .*/\+/' -e 's/^(.D|D.) .*/\-/' | grep -oE '^(\*|\+|\?|\-)' | sort -u | tr -d '\n')"
-git_left_right=$(git rev-list --count --left-right '@{upstream}'...HEAD)
+git_left_right=$(git rev-list --count --left-right '@{upstream}'...HEAD 2> /dev/null)
 git_left=$(sed -n -E 's/^([0-9]+).*[0-9]/\1/p' <<< "$git_left_right")
 git_right=$(sed -n -E 's/^[0-9]+.*([0-9])/\1/p' <<< "$git_left_right")
 if [[ "$git_left" -gt 0 ]]; then
