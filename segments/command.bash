@@ -2,6 +2,7 @@
 
 command_exit_code=$1
 command_time=$2
+segment_direction=$3
 timer_m=0
 timer_s=0
 
@@ -24,5 +25,5 @@ fi
 
 command_value="last: ${timer_m}m ${timer_s}s"
 
-pretty_print_segment "$command_color_fg" "$command_color_bg" " ${command_value} "
+pretty_print_segment "$command_color_fg" "$command_color_bg" " ${command_value} " "$segment_direction"
 

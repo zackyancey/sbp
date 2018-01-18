@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+segment_direction=$3
+
 path_value=
 wdir=${PWD/${HOME}/\~}
 
@@ -18,9 +20,9 @@ if [[ $settings_path_disable_sep -eq 0 && "${#wdir_array[@]}" -gt 1 ]]; then
       path_value="${path_value}${segment_value}${segment_seperator}"
     fi
   done
-  printf '%s' "$path_value"
 else
   path_value=" $wdir"
-  pretty_print_segment "$settings_path_color_fg" "$settings_path_color_bg" "${path_color}${path_value} "
 fi
+
+pretty_print_segment "$settings_path_color_fg" "$settings_path_color_bg" "${path_value}" "$segment_direction"
 
