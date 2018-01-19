@@ -21,7 +21,7 @@ if [[ $settings_path_disable_sep -eq 0 && "${#wdir_array[@]}" -gt 1 ]]; then
     fi
   done
 else
-  path_value=" $wdir"
+  path_value=" $wdir "
 fi
 
 pretty_print_segment "$settings_path_color_fg" "$settings_path_color_bg" "${path_value}" "$segment_direction"
