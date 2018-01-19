@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+segment_direction=$3
+
 [[ -n "$(git rev-parse --git-dir 2> /dev/null)" ]] || exit 0
 
 git_head=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
@@ -20,4 +22,4 @@ if [[ $(( ${#git_head} + ${#git_state} )) -gt "$settings_git_max_length" ]]; the
   git_head="${git_head:0:$git_head_room}.."
 fi
 segment_value=" ${git_head}${git_state} "
-pretty_print_segment "$settings_git_color_fg" "$settings_git_color_bg" "${segment_value//  / }"
+pretty_print_segment "$settings_git_color_fg" "$settings_git_color_bg" "${segment_value//  / }" "$segment_direction"

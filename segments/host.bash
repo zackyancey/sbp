@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+segment_direction=$3
+
 if [[ -n "$SSH_CLIENT" ]]; then
   host_value="${USER}@${HOSTNAME}"
 else
@@ -14,4 +16,4 @@ else
   host_color_bg="$settings_host_color_bg"
 fi
 
-pretty_print_segment "$host_color_fg" "$host_color_bg" " ${host_value} "
+pretty_print_segment "$host_color_fg" "$host_color_bg" " ${host_value} " "$segment_direction"
