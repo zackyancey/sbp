@@ -5,9 +5,4 @@ addons:
   apt:
     packages:
     - bc
-before_install: 
-  - curl -sSL "https://ftp-master.debian.org/keys/archive-key-7.0.asc" | sudo -E apt-key add -
-  - echo "deb http://ftp.us.debian.org/debian unstable main contrib non-free" | sudo tee -a /etc/apt/sources.list > /dev/null
-  - sudo apt-get update
-  - sudo apt-get install shellcheck
 script: ./bin/test

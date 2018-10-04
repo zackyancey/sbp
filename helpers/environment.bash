@@ -1,3 +1,5 @@
+#! /usr/bin/env bash
+
 function log_error() {
   local context="${BASH_SOURCE[1]}:${FUNCNAME[1]}"
   >&2 echo "${context}: ${*}"

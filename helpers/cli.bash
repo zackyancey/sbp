@@ -7,6 +7,7 @@ function _sbp_print_usage() {
   hooks     - List all available hooks
   colors    - List all defined colors
   reload    - Reload SBP and user settings
+  config    - Opens the config in $EDITOR
 EOF
   return 1
 }
@@ -56,6 +57,10 @@ function _sbp_reload() {
   source "$sbp_path"/sbp.bash
 }
 
+function _sbp_edit_config() {
+  $EDITOR "${HOME}/.config/sbp/sbp.conf"
+}
+
 function sbp() {
   case $1 in
     segments) # Show all available segments
@@ -69,6 +74,9 @@ function sbp() {
       ;;
     reload) # Reload settings and SBP
       _sbp_reload
+      ;;
+    config) # Open the config file
+      _sbp_edit_config
       ;;
     *)
       _sbp_print_usage
