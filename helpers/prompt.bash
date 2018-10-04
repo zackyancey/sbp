@@ -1,3 +1,5 @@
+#! /usr/bin/env bash
+
 # shellcheck source=helpers/formatting.bash
 source "${sbp_path}/helpers/formatting.bash"
 # shellcheck source=helpers/environment.bash
@@ -7,7 +9,7 @@ function calculate_padding() {
   local string=$1
   local width=$2
   uncolored=$(strip_escaped_colors "${string}")
-  echo $(( width - ${#uncolored}))
+  echo $(( width - ${#uncolored} ))
 }
 
 function execute_segment_script() {
@@ -58,7 +60,7 @@ function generate_prompt() {
     execute_segment_script "${prompt_segments[i]}" "$command_exit_code" "$command_time" "$seperator_direction" > "$tempdir/$i" & pids[i]=$!
     if [[ "$i" -lt "$prompt_left_end" ]]; then
       seperator_direction='right'
-    elif [[ "$i" -eq "$prompt_left_end" ]]; then
+    elif [[ "$i" -eq "$prompt_left_end" && "$i" -ne "$prompt_right_end" ]]; then
       seperator_direction='left'
     elif [[ "$i" -eq "$prompt_right_end" ]]; then
       seperator_direction=''
@@ -86,10 +88,14 @@ function generate_prompt() {
     fi
   done
 
+  if [[ -z "${prompt_right}" ]]; then
+    prompt_right='\n'
+  fi
+
   # Generate the filler segment
   local prompt_line_one
   ## TODO Call the filler segment here instead
-  prompt_line_one="${prompt_left}${filler}${prompt_right}"
+  prompt_line_one="${prompt_left}${prompt_right}"
   prompt_uncolored=$(calculate_padding "${prompt_line_one}" "$columns")
   padding=$(printf "%*s" "$prompt_uncolored")
   prompt_filler=$(sed "s/_filler_/ ${padding}  /" <<< "$prompt_filler")
