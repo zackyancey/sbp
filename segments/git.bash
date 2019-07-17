@@ -2,7 +2,7 @@
 
 segment_direction=$3
 
-[[ -n "$(git rev-parse --git-dir 2> /dev/null)" ]] || exit 0
+[[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] || exit 0
 
 git_head=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
 [[ -z "$git_head" ]] && exit 0
