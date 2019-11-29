@@ -40,7 +40,7 @@ function _sbp_set_prompt {
     command_time=-1
   else
     command_ended=$(date +'%s')
-    command_started=$(cut -d ' ' -f 4 <<< "$last_history")
+    command_started=$(awk '{print $2}' <<< "$last_history")
     command_time=$(( command_ended - command_started ))
   fi
 
