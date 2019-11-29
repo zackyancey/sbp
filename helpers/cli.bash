@@ -7,6 +7,7 @@ function _sbp_print_usage() {
   hooks     - List all available hooks
   colors    - List all defined colors
   reload    - Reload SBP and user settings
+  debug     - Toggle debug mode
   config    - Opens the config in $EDITOR
 EOF
   return 1
@@ -66,6 +67,14 @@ function _sbp_edit_config() {
   $EDITOR "${HOME}/.config/sbp/sbp.conf"
 }
 
+function _sbp_toggle_debug() {
+  if [[ -z "$SBP_DEBUG" ]]; then
+    SBP_DEBUG=true
+  else
+    unset SBP_DEBUG
+  fi
+}
+
 function sbp() {
   case $1 in
     segments) # Show all available segments
@@ -83,6 +92,9 @@ function sbp() {
     config) # Open the config file
       _sbp_edit_config
       ;;
+    debug) # Toggle debug mode
+      _sbp_toggle_debug
+      ;;
     *)
       _sbp_print_usage
       ;;
@@ -92,7 +104,7 @@ function sbp() {
 function _sbp() {
   local cur words
   _get_comp_words_by_ref cur
-  words=('segments' 'hooks' 'colors' 'reload' 'help' 'config')
+  words=('segments' 'hooks' 'colors' 'reload' 'help' 'config' 'debug')
   COMPREPLY=( $( compgen -W "${words[*]}" -- "$cur") )
 }
 

@@ -44,8 +44,8 @@ fi
 git_state="${git_state} ${git_head}"
 
 git_status_upstream="$(git rev-list --left-right "@{upstream}"...HEAD 2>/dev/null)"
-git_incoming_commits="$(grep -c '>' <<< "${git_status_upstream}")"
-git_outgoing_commits="$(grep -c '<' <<< "${git_status_upstream}")"
+git_incoming_commits="$(grep -c '<' <<< "${git_status_upstream}")"
+git_outgoing_commits="$(grep -c '>' <<< "${git_status_upstream}")"
 
 if [[ "$git_incoming_commits" -gt 0 ]]; then
   git_state="${git_state} ↓${git_incoming_commits}"

@@ -8,6 +8,8 @@ function log_error() {
 function load_config() {
   config_dir="${HOME}/.config/sbp"
   config_file="${config_dir}/sbp.conf"
+  cache_folder="${config_dir}/cache"
+  mkdir -p "$cache_folder"
   default_config_file="${sbp_path}/helpers/defaults.bash"
 
   # Load the users settings if it exists
@@ -27,3 +29,4 @@ function load_config() {
 }
 
 export -f log_error
+export cache_folder
