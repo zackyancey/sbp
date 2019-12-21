@@ -9,11 +9,11 @@ else
 fi
 
 if [[ "$(id -u)" -eq 0 ]]; then
-  host_color_fg="0"
-  host_color_bg="1"
+  host_color_primary="$settings_host_root_color_primary"
+  host_color_secondary="$settings_host_root_color_secondary"
 else
-  host_color_fg="$settings_host_color_fg"
-  host_color_bg="$settings_host_color_bg"
+  host_color_primary="$settings_host_color_primary"
+  host_color_secondary="$settings_host_color_secondary"
 fi
 
-pretty_print_segment "$host_color_fg" "$host_color_bg" " ${host_value} " "$segment_direction"
+pretty_print_segment "$host_color_primary" "$host_color_secondary" " ${host_value} " "$segment_direction"
