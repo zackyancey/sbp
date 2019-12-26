@@ -12,21 +12,22 @@ color_reset='\[\e[00m\]'
 get_executable_script() {
   local type=$1
   local feature=$2
-  local local_script="${config_folder}/${type}s/${feature}.bash"
-  local global_script="${sbp_path}/${type}s/${feature}.bash"
 
   if [[ -f "${config_folder}/peekaboo/${segment_name}" ]]; then
     return 0
   fi
+
+  local local_script="${config_folder}/${type}s/${feature}.bash"
+  local global_script="${sbp_path}/${type}s/${feature}.bash"
 
   if [[ -x "$local_script" ]]; then
     printf '%s' "$local_script"
   elif [[ -x "$global_script" ]]; then
     printf '%s' "$global_script"
   else
-    log_error "Could not execute $local_script"
-    log_error "Could not execute $global_script"
-    log_error "Make sure it exists, and is executable"
+    log_error "Could not find $local_script"
+    log_error "Could not find $global_script"
+    log_error "Make sure it exists"
   fi
 }
 
@@ -59,7 +60,7 @@ generate_prompt() {
   execute_prompt_hooks
 
   local prompt_left="\n"
-  local prompt_filler prompt_right prompt_ready seperator_direction
+  local prompt_filler prompt_right prompt_ready seperator_direction base_dir
   local prompt_left_end=$(( ${#settings_segments_left[@]} - 1 ))
   local prompt_right_end=$(( ${#settings_segments_right[@]} + prompt_left_end ))
   local prompt_segments=("${settings_segments_left[@]}" "${settings_segments_right[@]}" 'prompt_ready')
@@ -71,7 +72,13 @@ generate_prompt() {
   declare -A pid_two
 
   # Concurrent evaluation of promt segments
-  tempdir=$(mktemp -d) && trap 'rm -rf "$tempdir"' EXIT;
+  systemd_tmp="/run/user/${UID}/"
+  if [[ -d "${systemd_tmp}" ]]; then
+    tempdir=$(mktemp -d --tmpdir="$systemd_tmp") && trap 'rm -rf "$tempdir"' EXIT;
+  else
+    tempdir=$(mktemp -d) && trap 'rm -rf "$tempdir"' EXIT;
+  fi
+
   for i in "${!prompt_segments[@]}"; do
     segment_name="${prompt_segments[i]}"
     [[ -z "$segment_name" ]] && continue
@@ -89,7 +96,7 @@ generate_prompt() {
       pid_two["$i"]="$i"
     fi
 
-    execute_segment_script "$segment_name" "$seperator_direction" "$segment_max_length" > "$tempdir/$i" & pids[i]=$!
+    execute_segment_script "$segment_name" "$seperator_direction" "$segment_max_length" > "${tempdir}/${i}" & pids[i]=$!
 
   done
 
@@ -104,7 +111,7 @@ generate_prompt() {
   for i in "${!pids[@]}"; do
     wait "${pids[i]}"
     segment_length=$?
-    segment=$(<"$tempdir/$i");
+    segment=$(<"$tempdir/$i")
     empty_space=$(( total_empty_space - segment_length ))
     if [[ -n "${pid_left["$i"]}"  && "$empty_space" -gt 0 ]]; then
       prompt_left="${prompt_left}${segment}"
