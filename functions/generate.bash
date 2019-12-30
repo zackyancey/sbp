@@ -59,7 +59,12 @@ generate_prompt() {
 
   execute_prompt_hooks
 
-  local prompt_left="\n"
+  local prompt_left
+  if [[ settings_prompt_start_newline -ne 0 ]]; then
+    prompt_left='\n'
+  else
+    prompt_left=''
+  fi
   local prompt_filler prompt_right prompt_ready seperator_direction base_dir
   local prompt_left_end=$(( ${#settings_segments_left[@]} - 1 ))
   local prompt_right_end=$(( ${#settings_segments_right[@]} + prompt_left_end ))
@@ -103,9 +108,9 @@ generate_prompt() {
   total_empty_space="$columns"
 
   if [[ -n "${settings_prompt_prefix_upper}" ]]; then
-    total_empty_space=$(( total_empty_space - ${#settings_prompt_prefix_upper} - 1 ))
+    total_empty_space=$(( total_empty_space - ${#settings_prompt_prefix_upper} ))
     prefix_color="$(print_fg_color "$settings_prompt_ready_color_primary")"
-    prompt_left="${prompt_left} ${prefix_color}${settings_prompt_prefix_upper}"
+    prompt_left="${prompt_left}${prefix_color}${settings_prompt_prefix_upper}"
   fi
 
   for i in "${!pids[@]}"; do
@@ -128,7 +133,7 @@ generate_prompt() {
   if [[ -n "$prompt_right" ]]; then
     prompt_uncolored="$(( total_empty_space - 1 ))" # Account for the filler seperator
   else
-    prompt_uncolored=1
+    prompt_uncolored=0
   fi
   padding=$(printf "%*s" "$prompt_uncolored")
   prompt_filler="$(pretty_print_segment "" "" "$padding" "right")"
@@ -139,7 +144,12 @@ generate_prompt() {
   fi
 
   # Print the prompt and reset colors
-  printf '%s' "${prompt_left}${prompt_filler}${prompt_right}${color_reset}${prompt_ready}${color_reset}"
+  if [[ "${settings_prompt_ready_suppress}" -eq 1 ]]; then
+    printf '%s' "${prompt_left}${prompt_filler}${prompt_right}${color_reset}"
+  else
+    printf '%s' "${prompt_left}${prompt_filler}${prompt_right}${color_reset}${prompt_ready}${color_reset}"
+  fi
+
 }
 
 generate_prompt "$@"

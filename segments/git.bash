@@ -71,6 +71,10 @@ if [[ $(( ${#git_head} + ${#git_state} )) -gt "$settings_git_max_length" ]]; the
   git_head="${git_head:0:10}.."
 fi
 
-segment_value=" ${git_state} ${settings_git_icon} ${git_head} ${upstream_status} "
-
+segment_value="${git_state} ${settings_git_icon} ${git_head} ${upstream_status}"
+segment_value="${segment_value// / }"
+shopt -s extglob
+segment_value="${segment_value##*( )}"  # Trim leading whitespaces
+segment_value="${segment_value%%*( )}"  # Trim trailing whitespaces
+shopt -u extglob
 pretty_print_segment "$settings_git_color_primary" "$settings_git_color_secondary" "${segment_value//  / }" "$segment_direction"

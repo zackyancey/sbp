@@ -12,5 +12,5 @@ if grep -q token "${HOME}/.kube/config" &>/dev/null; then
     segment="${user}@${server}:${project}"
   fi
 
-  pretty_print_segment "$settings_openshift_color_primary" "$settings_openshift_color_secondary" " ${segment} " "$segment_direction"
+  pretty_print_segment "$settings_openshift_color_primary" "$settings_openshift_color_secondary" "${segment}" "$segment_direction"
 fi

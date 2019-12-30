@@ -25,5 +25,5 @@ fi
 
 command_value="last: ${timer_m}m ${timer_s}s"
 
-pretty_print_segment "$command_color_primary" "$command_color_secondary" " ${command_value} " "$segment_direction"
+pretty_print_segment "$command_color_primary" "$command_color_secondary" "${command_value}" "$segment_direction"
 

@@ -8,3 +8,4 @@ settings_prompt_ready_icon="${settings_prompt_prefix_lower}${settings_prompt_rea
 settings_segment_enable_bg_color=0
 settings_path_splitter_disable=1
 settings_prompt_ready_newline=1
+settings_prompt_start_newline=1

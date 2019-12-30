@@ -19,13 +19,13 @@ if [[ $settings_path_splitter_disable -ne 1 && "${#wdir_array[@]}" -gt 1 ]]; the
   for i in "${!wdir_array[@]}"; do
     dir=${wdir_array["$i"]}
     if [[ -n "$dir" ]]; then
-      segment_value=" ${dir} "
+      segment_value="${dir}"
       [[ "$(( i + 1 ))" -eq "${#wdir_array[@]}" ]] && unset splitter_segment
       path_value="${path_value}${segment_value}${splitter_segment}"
     fi
   done
 else
-  path_value=" $wdir "
+  path_value="$wdir"
 fi
 
 pretty_print_segment "$settings_path_color_primary" "$settings_path_color_secondary" "${path_value}" "$segment_direction"
