@@ -8,14 +8,14 @@ outgoing_icon="$settings_git_outgoing_icon"
 
 path=${PWD}
 while [[ $path ]]; do
-  if [[ -d "${path}/.git" ]]; then
+  if [[ -d "${path}/.git" || -f "${path}/.git" ]]; then
     git_folder="${path}/.git"
     break
   fi
   path=${path%/*}
 done
 
-[[ -z "$git_folder" ]] && exit 0
+
 type git &>/dev/null || exit 0
 
 git_status="$(git status --porcelain --branch 2>/dev/null)"
